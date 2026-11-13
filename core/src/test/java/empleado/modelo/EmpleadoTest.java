@@ -1,6 +1,7 @@
 package empleado.modelo;
 
 import empleado.exception.LegajoInvalidoException;
+import empleado.exception.AtributoObligatorioException;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -22,4 +23,23 @@ class EmpleadoTest {
             );
         });
     }
+
+    @Test
+    void deberiaLanzarAtributoObligatorioException() {
+        // Arrange & Act & Assert
+        assertThrows(AtributoObligatorioException.class, () -> {
+            new Empleado(
+                    "ABC1234", // Legajo válido
+                    null,       // Nombre nulo (inválido)
+                    "ANALISTA",
+                    600000.0,
+                    LocalDate.of(2023, 5, 10)
+            );
+        });
+    }
+
+
+
+
+
 }
