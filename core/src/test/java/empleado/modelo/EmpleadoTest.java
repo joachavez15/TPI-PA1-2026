@@ -2,6 +2,8 @@ package empleado.modelo;
 
 import empleado.exception.LegajoInvalidoException;
 import empleado.exception.AtributoObligatorioException;
+import empleado.exception.SalarioInsuficienteException;
+
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -37,6 +39,26 @@ class EmpleadoTest {
             );
         });
     }
+
+    @Test
+    void deberiaLanzarSalarioInsuficienteException() {
+        // Arrange & Act & Assert
+        assertThrows(SalarioInsuficienteException.class, () -> {
+            new Empleado(
+                    "ABC1234",
+                    "Juan Pérez",
+                    "ANALISTA",
+                    0.0, // Salario inválido (cero o negativo)
+                    LocalDate.of(2023, 5, 10)
+            );
+        });
+    }
+
+
+
+
+
+
 
 
 
