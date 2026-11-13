@@ -54,6 +54,48 @@ class EmpleadoTest {
         });
     }
 
+    @Test
+    void deberiaLanzarSalarioInsuficienteExceptionCuandoAnalistaTengaSalarioMenorA500000() {
+        // Arrange & Act & Assert
+        assertThrows(SalarioInsuficienteException.class, () -> {
+            new Empleado(
+                    "ABC1234",
+                    "Juan Pérez",
+                    "ANALISTA",
+                    499999.99, // Salario menor a 500.000
+                    LocalDate.of(2023, 5, 10)
+            );
+        });
+    }
+
+    @Test
+    void deberiaLanzarSalarioInsuficienteExceptionCuandoSupervisorTengaSalarioMenorA800000() {
+        // Arrange & Act & Assert
+        assertThrows(SalarioInsuficienteException.class, () -> {
+            new Empleado(
+                    "ABC1234",
+                    "Juan Pérez",
+                    "SUPERVISOR",
+                    750000.0, // Salario menor a 800.000
+                    LocalDate.of(2023, 5, 10)
+            );
+        });
+    }
+
+    @Test
+    void deberiaLanzarSalarioInsuficienteExceptionCuandoGerenteTengaSalarioMenorA1200000() {
+        // Arrange & Act & Assert
+        assertThrows(SalarioInsuficienteException.class, () -> {
+            new Empleado(
+                    "ABC1234",
+                    "Juan Pérez",
+                    "GERENTE",
+                    1199999.0, // Salario menor a 1.200.000
+                    LocalDate.of(2023, 5, 10)
+            );
+        });
+    }
+
 
 
 
