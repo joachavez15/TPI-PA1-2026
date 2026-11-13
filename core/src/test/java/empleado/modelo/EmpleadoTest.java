@@ -8,7 +8,9 @@ import empleado.exception.SalarioInsuficienteException;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
+import static empleado.modelo.Puesto.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EmpleadoTest {
@@ -18,9 +20,10 @@ class EmpleadoTest {
         // Arrange & Act & Assert
         assertThrows(LegajoInvalidoException.class, () -> {
             new Empleado(
+                    UUID.randomUUID(),
                     "123ABCD", // Legajo inválido (debe ser 3 letras y 4 números: ABC1234)
                     "Juan Pérez",
-                    "ANALISTA",
+                    ANALISTA,
                     600000.0,
                     LocalDate.of(2023, 5, 10)
             );
@@ -32,9 +35,10 @@ class EmpleadoTest {
         // Arrange & Act & Assert
         assertThrows(AtributoObligatorioException.class, () -> {
             new Empleado(
+                    UUID.randomUUID(),
                     "ABC1234", // Legajo válido
                     null,       // Nombre nulo (inválido)
-                    "ANALISTA",
+                    ANALISTA,
                     600000.0,
                     LocalDate.of(2023, 5, 10)
             );
@@ -46,9 +50,10 @@ class EmpleadoTest {
         // Arrange & Act & Assert
         assertThrows(SalarioInsuficienteException.class, () -> {
             new Empleado(
+                    UUID.randomUUID(),
                     "ABC1234",
                     "Juan Pérez",
-                    "ANALISTA",
+                    ANALISTA,
                     0.0, // Salario inválido (cero o negativo)
                     LocalDate.of(2023, 5, 10)
             );
@@ -60,9 +65,10 @@ class EmpleadoTest {
         // Arrange & Act & Assert
         assertThrows(SalarioInsuficienteException.class, () -> {
             new Empleado(
+                    UUID.randomUUID(),
                     "ABC1234",
                     "Juan Pérez",
-                    "ANALISTA",
+                    ANALISTA,
                     499999.99, // Salario menor a 500.000
                     LocalDate.of(2023, 5, 10)
             );
@@ -74,9 +80,10 @@ class EmpleadoTest {
         // Arrange & Act & Assert
         assertThrows(SalarioInsuficienteException.class, () -> {
             new Empleado(
+                    UUID.randomUUID(),
                     "ABC1234",
                     "Juan Pérez",
-                    "SUPERVISOR",
+                    SUPERVISOR,
                     750000.0, // Salario menor a 800.000
                     LocalDate.of(2023, 5, 10)
             );
@@ -88,9 +95,10 @@ class EmpleadoTest {
         // Arrange & Act & Assert
         assertThrows(SalarioInsuficienteException.class, () -> {
             new Empleado(
+                    UUID.randomUUID(),
                     "ABC1234",
                     "Juan Pérez",
-                    "GERENTE",
+                    GERENTE,
                     1199999.0, // Salario menor a 1.200.000
                     LocalDate.of(2023, 5, 10)
             );
@@ -101,9 +109,10 @@ class EmpleadoTest {
     void deberiaLanzarFechaIngresoInvalidaException(){
         assertThrows(FechaIngresoInvalidaException.class, () -> {
             new Empleado(
+                    UUID.randomUUID(),
                     "ABC1234",
                     "Juan Pérez",
-                    "ANALISTA",
+                    ANALISTA,
                     550000.0,
                     LocalDate.of(2027, 2, 10) //Fecha posterior a fecha actual
             );
