@@ -1,5 +1,6 @@
 package empleado.modelo;
 
+import empleado.exception.FechaIngresoInvalidaException;
 import empleado.exception.LegajoInvalidoException;
 import empleado.exception.AtributoObligatorioException;
 import empleado.exception.SalarioInsuficienteException;
@@ -92,6 +93,19 @@ class EmpleadoTest {
                     "GERENTE",
                     1199999.0, // Salario menor a 1.200.000
                     LocalDate.of(2023, 5, 10)
+            );
+        });
+    }
+
+    @Test
+    void deberiaLanzarFechaIngresoInvalidaException(){
+        assertThrows(FechaIngresoInvalidaException.class, () -> {
+            new Empleado(
+                    "ABC1234",
+                    "Juan Pérez",
+                    "ANALISTA",
+                    550000.0,
+                    LocalDate.of(2027, 2, 10) //Fecha posterior a fecha actual
             );
         });
     }
