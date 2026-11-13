@@ -31,11 +31,11 @@ class EmpleadoRepositoryImplTest {
         UUID id = UUID.randomUUID();
         Empleado empleadoDominio = new Empleado(
                 id,
-                "L1234",
+                "ABC1234",
                 "Juan Perez",
-                Puesto.DESARROLLADOR,
-                1500.0,
-                LocalDate.now()
+                Puesto.GERENTE,
+                1500000.0,
+                LocalDate.of(2023, 5, 10)
         );
 
         // Act
@@ -44,6 +44,6 @@ class EmpleadoRepositoryImplTest {
         // Assert
         assertNotNull(resultado);
         assertEquals(empleadoDominio.getLegajo(), resultado.getLegajo());
-        assertTrue(springDataEmpleadoRepository.existsByLegajo("L1234"));
+        assertTrue(springDataEmpleadoRepository.existsByLegajo("ABC1234"));
     }
 }
