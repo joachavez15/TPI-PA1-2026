@@ -29,6 +29,8 @@ public class Empleado {
             throw new AtributoObligatorioException("La fecha de ingreso es obligatoria");
         }
 
+        validarPisoSalarial(puesto, salario);
+
 
         this.legajo = legajo;
         this.nombreCompleto = nombreCompleto;
@@ -48,6 +50,22 @@ public class Empleado {
             throw new AtributoObligatorioException(mensaje);
         }
     }
+
+    private void validarPisoSalarial(String puesto, double salario){
+
+        double pisoMinimo = switch (puesto.toUpperCase()){
+            case "ANALISTA" -> 500000.0;
+            case "SUPERVISOR" -> 800000.0;
+            case "GERENTE" -> 1200000.0;
+            default -> 0;
+        };
+
+        if (salario < pisoMinimo){
+            throw new SalarioInsuficienteException("El salario no alcanza el piso mínimo para el puesto de " + puesto + " ($" + pisoMinimo + ").");
+        }
+    }
+
+
 
     public String getLegajo() {
         return legajo;
