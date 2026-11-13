@@ -1,6 +1,7 @@
 package empleado.modelo;
 
 import empleado.exception.LegajoInvalidoException;
+import empleado.exception.AtributoObligatorioException;
 
 import java.time.LocalDate;
 
@@ -14,6 +15,15 @@ public class Empleado {
 
     public Empleado(String legajo, String nombreCompleto, String puesto, Double salario, LocalDate fechaIngreso) {
         validarLegajo(legajo);
+        validarAtributoObligatorio(nombreCompleto, "El nombre completo es obligatorio");
+        validarAtributoObligatorio(puesto, "El puesto es obligatorio");
+
+        if (salario == null) {
+            throw new AtributoObligatorioException("El salario es obligatorio");
+        }
+        if (fechaIngreso == null) {
+            throw new AtributoObligatorioException("La fecha de ingreso es obligatoria");
+        }
 
         this.legajo = legajo;
         this.nombreCompleto = nombreCompleto;
@@ -25,6 +35,12 @@ public class Empleado {
     private void validarLegajo(String legajo) {
         if (legajo == null || !legajo.matches("^[A-Z]{3}\\d{4}$")) {
             throw new LegajoInvalidoException("El legajo debe tener 3 letras mayúsculas seguidas de 4 números (ej: ABC1234).");
+        }
+    }
+
+    private void validarAtributoObligatorio(String valor, String mensaje) {
+        if (valor == null || valor.trim().isEmpty()) {
+            throw new AtributoObligatorioException(mensaje);
         }
     }
 
