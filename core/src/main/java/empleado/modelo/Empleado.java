@@ -2,6 +2,7 @@ package empleado.modelo;
 
 import empleado.exception.LegajoInvalidoException;
 import empleado.exception.AtributoObligatorioException;
+import empleado.exception.SalarioInsuficienteException;
 
 import java.time.LocalDate;
 
@@ -21,9 +22,13 @@ public class Empleado {
         if (salario == null) {
             throw new AtributoObligatorioException("El salario es obligatorio");
         }
+        if (salario <= 0.0) {
+            throw new SalarioInsuficienteException("El salario debe ser mayor a cero.");
+        }
         if (fechaIngreso == null) {
             throw new AtributoObligatorioException("La fecha de ingreso es obligatoria");
         }
+
 
         this.legajo = legajo;
         this.nombreCompleto = nombreCompleto;
