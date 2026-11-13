@@ -1,5 +1,6 @@
 package ar.edu.undec.adapter.service.empleado.controller;
 
+import ar.edu.undec.adapter.service.empleado.model.EmpleadoRequestDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import empleado.input.CrearEmpleadoInput;
 import empleado.modelo.Empleado;
@@ -42,4 +43,25 @@ class EmpleadoControllerTest {
         // Simulamos el DTO de request web
         // ... (definiremos el request DTO luego)
     }
+
+    @Test
+    void crearEmpleado_cuandoEmpleadoYaExiste_deberiaRetornarConflict() throws Exception {
+        when(crearEmpleadoInput.crear(any())).thenThrow(new empleado.exception.EmpleadoYaExisteException("El empleado ya existe"));
+        EmpleadoRequestDTO requestDTO = new EmpleadoRequestDTO();
+        requestDTO.setLegajo("ABC1234");
+        requestDTO.setNombreCompleto("Juan Perez");
+        requestDTO.setPuesto("ANALISTA");
+        requestDTO.setSalario(600000.0);
+        requestDTO.setFechaIngreso(LocalDate.now());
+
+        mockMvc.perform(post("/empleados")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isConflict()); // Esperamos un 409
+    }
+
+
+
+
+
 }
