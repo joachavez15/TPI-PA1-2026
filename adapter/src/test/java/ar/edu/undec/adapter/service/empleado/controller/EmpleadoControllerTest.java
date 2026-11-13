@@ -117,4 +117,21 @@ class EmpleadoControllerTest {
                 .andExpect(jsonPath("$[0].legajo").value("ABC1234"))
                 .andExpect(jsonPath("$[1].legajo").value("XYZ5678"));
     }
+
+    @Test
+    void crearEmpleado_cuandoViolacionReglasNegocio_deberiaRetornarBadRequest() throws Exception {
+        when(crearEmpleadoInput.crear(any())).thenThrow(new empleado.exception.SalarioInsuficienteException("Salario insuficiente"));
+
+        EmpleadoRequestDTO requestDTO = new EmpleadoRequestDTO();
+        requestDTO.setLegajo("ABC1234");
+        requestDTO.setNombreCompleto("Juan Perez");
+        requestDTO.setPuesto("ANALISTA");
+        requestDTO.setSalario(100000.0); // Salario inválido menor al piso
+        requestDTO.setFechaIngreso(LocalDate.now());
+
+        mockMvc.perform(post("/empleados")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isBadRequest()); // Esperamos un 400
+    }
 }
