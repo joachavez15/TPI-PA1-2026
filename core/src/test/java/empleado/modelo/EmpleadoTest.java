@@ -16,6 +16,29 @@ import static org.junit.jupiter.api.Assertions.*;
 class EmpleadoTest {
 
     @Test
+    void crearEmpleadoExitosamente() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        String legajo = "ABC1234";
+        String nombreCompleto = "María Gómez";
+        Puesto puesto = ANALISTA;
+        Double salario = 600000.0;
+        LocalDate fechaIngreso = LocalDate.of(2025, 3, 15);
+
+        // Act
+        Empleado empleado = new Empleado(id, legajo, nombreCompleto, puesto, salario, fechaIngreso);
+
+        // Assert
+        assertNotNull(empleado);
+        assertEquals(id, empleado.getId());
+        assertEquals(legajo, empleado.getLegajo());
+        assertEquals(nombreCompleto, empleado.getNombreCompleto());
+        assertEquals(puesto, empleado.getPuesto());
+        assertEquals(salario, empleado.getSalario());
+        assertEquals(fechaIngreso, empleado.getFechaIngreso());
+    }
+
+    @Test
     void deberiaLanzarLegajoInvalidoException() {
         // Arrange & Act & Assert
         assertThrows(LegajoInvalidoException.class, () -> {
