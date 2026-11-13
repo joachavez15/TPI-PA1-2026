@@ -1,5 +1,6 @@
 package empleado.modelo;
 
+import empleado.exception.FechaIngresoInvalidaException;
 import empleado.exception.LegajoInvalidoException;
 import empleado.exception.AtributoObligatorioException;
 import empleado.exception.SalarioInsuficienteException;
@@ -27,6 +28,9 @@ public class Empleado {
         }
         if (fechaIngreso == null) {
             throw new AtributoObligatorioException("La fecha de ingreso es obligatoria");
+        }
+        if (fechaIngreso.isAfter(LocalDate.now())) {
+            throw new FechaIngresoInvalidaException("La fecha de ingreso no puede ser posterior a la actual.");
         }
 
         validarPisoSalarial(puesto, salario);
