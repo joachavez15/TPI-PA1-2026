@@ -6,20 +6,24 @@ import empleado.exception.AtributoObligatorioException;
 import empleado.exception.SalarioInsuficienteException;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public class Empleado {
 
+    private final UUID id;
     private final String legajo;
     private final String nombreCompleto;
-    private final String puesto;
+    private final Puesto puesto;
     private final Double salario;
     private final LocalDate fechaIngreso;
 
-    public Empleado(String legajo, String nombreCompleto, String puesto, Double salario, LocalDate fechaIngreso) {
+    public Empleado(UUID id, String legajo, String nombreCompleto, Puesto puesto, Double salario, LocalDate fechaIngreso) {
         validarLegajo(legajo);
         validarAtributoObligatorio(nombreCompleto, "El nombre completo es obligatorio");
-        validarAtributoObligatorio(puesto, "El puesto es obligatorio");
 
+        if (puesto == null) {
+            throw new AtributoObligatorioException("El puesto es obligatorio");
+        }
         if (salario == null) {
             throw new AtributoObligatorioException("El salario es obligatorio");
         }
@@ -35,7 +39,7 @@ public class Empleado {
 
         validarPisoSalarial(puesto, salario);
 
-
+        this.id = id;
         this.legajo = legajo;
         this.nombreCompleto = nombreCompleto;
         this.puesto = puesto;
@@ -55,12 +59,12 @@ public class Empleado {
         }
     }
 
-    private void validarPisoSalarial(String puesto, double salario){
+    private void validarPisoSalarial(Puesto puesto, double salario){
 
-        double pisoMinimo = switch (puesto.toUpperCase()){
-            case "ANALISTA" -> 500000.0;
-            case "SUPERVISOR" -> 800000.0;
-            case "GERENTE" -> 1200000.0;
+        double pisoMinimo = switch (puesto){
+            case ANALISTA -> 500000.0;
+            case SUPERVISOR -> 800000.0;
+            case GERENTE -> 1200000.0;
             default -> 0;
         };
 
@@ -79,7 +83,7 @@ public class Empleado {
         return nombreCompleto;
     }
 
-    public String getPuesto() {
+    public Puesto getPuesto() {
         return puesto;
     }
 
@@ -89,5 +93,9 @@ public class Empleado {
 
     public LocalDate getFechaIngreso() {
         return fechaIngreso;
+    }
+
+    public UUID getId() {
+        return id;
     }
 }
